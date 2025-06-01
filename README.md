@@ -1,4 +1,4 @@
-# Fire and Smoke Detection using CNN and Computer Vision
+# Fire and Smoke Detection using CNN and Computer Vision also the YOLO model.
 
 ## Overview
 This project provides a comprehensive, real-time fire and smoke detection system leveraging deep learning (YOLOv8) and computer vision. The system is designed to identify fire and smoke in images or video streams, trigger alerts, and provide a web-based interface for monitoring. It is suitable for campus surveillance, homes, industrial settings, and other safety-critical environments.
