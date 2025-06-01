@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Detection System</title>
+    <style>
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #2c3e50;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin-right: 20px;
+        }
+
+        nav a:hover {
+            color: #e74c3c;
+        }
+
+        /* Navbar Logo */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Video Feed Section */
+        .video-container {
+            width: 60%; /* Adjust width to leave space for the output container */
+            height: 50vh; /* Full height */
+            background-color: #000;
+            box-shadow: 4px 0 8px rgba(0, 0, 0, 0.5);
+            border-right: 5px solid #3498db;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden; /* Prevent overflow */
+        }
+
+        #camera-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the entire frame fits within the container */
+        }
+
+        /* Output Data Section */
+        .output-container {
+            width: 35%; /* Set width for the output container */
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            margin-top: 0; /* Remove margin */
+        }
+
+        .output-container h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #34495e;
+        }
+
+        #status {
+            font-size: 18px;
+            color: #2ecc71;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            font-size: 1.2em;
+            color: white;
+        }
+
+        /* Heading and Description */
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            /* Stack video and output container vertically on small screens */
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .video-container {
+                width: 100%;
+                height: 400px;
+            }
+
+            .output-container {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+    <script>
+        // Poll the server for fire detection status every second
+        function checkFireStatus() {
+            fetch("/fire_status")
+                .then(response => response.json())
+                .then(data => {
+                    const statusElement = document.getElementById("status");
+                    if (data.fire_detected) {
+                        statusElement.textContent = "Fire Detected!";
+                        statusElement.style.color = "red";
+                    } else {
+                        statusElement.textContent = "Awaiting detection...";
+                        statusElement.style.color = "#2ecc71";
+                    }
+                })
+                .catch(error => console.error("Error fetching fire status:", error));
+        }
+
+        // Start polling on page load
+        window.onload = function() {
+            setInterval(checkFireStatus, 1000);
+        };
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Fire Detection System</div>
+        <div>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Video Feed Section -->
+        <div class="video-container">
+            <h2>Real-Time Camera Feed</h2>
+            <img id="camera-feed" src="{{ url_for('frames') }}" alt="Video Feed">
+        </div>
+        <!-- Output Data Section placed to the right -->
+        <div class="output-container">
+            <h3>Detection Status</h3>
+            <p id="status">Awaiting detection...</p>
+        </div>
+    </div>
+    
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Fire Detection Project | PSIT Tech Expo</p>
+    </footer>
+</body>
+</html>
