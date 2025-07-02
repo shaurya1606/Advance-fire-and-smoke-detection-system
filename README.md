@@ -2,7 +2,7 @@
 
 ## Overview
 This project provides a comprehensive, real-time fire and smoke detection system leveraging deep learning (YOLOv8) and computer vision. The system is designed to identify fire and smoke in images or video streams, trigger alerts, and provide a web-based interface for monitoring. It is suitable for campus surveillance, homes, industrial settings, and other safety-critical environments.
-
+ 
 ## Features
 - **Real-time Detection:** Fast and accurate fire and smoke detection using a YOLOv8-based model.
 - **Custom Dataset:** Trained on a dataset of over 1,390 images, including both collected and sourced images, with extensive data augmentation for robustness.
